@@ -20,11 +20,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function getRandomJoke() {
         if (chistes.length === 0) return null;
-
-
         let chisteFaltante = chistes.filter(joke => !chistePasado.has(joke));
         if (chisteFaltante.length === 0) {
-            //reinicia bromas
+            //reiniciar chistes
             chistePasado.clear();
             chisteFaltante = chistes;
         }
@@ -33,6 +31,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         const joke = chisteFaltante[randomIndex];
         chistePasado.add(joke);
         return joke;
+    }
+
+    function addJoke(pregunta, respuesta) {
+        const newJoke = {
+            pregunta: pregunta,
+            respuesta: respuesta
+        };
+        chistes.push(newJoke);
+        console.log('Nuevo chiste agregado:', newJoke);
     }
 
     document.getElementById('generateJoke').addEventListener('click', function() {
@@ -47,11 +54,25 @@ document.addEventListener('DOMContentLoaded', async function() {
             jokeDisplay.innerHTML = jokeHtml;
             jokeDisplay.style.display = 'block'; 
         } else {
-            jokeDisplay.textContent = 'No se encontró ninguna broma.';
+            jokeDisplay.textContent = 'No se encontró ningun chiste :C.';
             jokeDisplay.style.display = 'block'; 
         }
     });
 
+    //Agregarchiste usuario
+    document.getElementById('addJoke').addEventListener('click', function() {
+        const jokeQuestion = document.getElementById('jokeQuestion').value;
+        const jokeAnswer = document.getElementById('jokeAnswer').value;
+
+        if (jokeQuestion && jokeAnswer) {
+            addJoke(jokeQuestion, jokeAnswer);
+            alert('¡Chiste agregado!');
+            document.getElementById('jokeQuestion').value = '';
+            document.getElementById('jokeAnswer').value = '';
+        } else {
+            alert('Por favor, completa ambos campos.');
+        }
+    });
 
     await loadJokes();
 });

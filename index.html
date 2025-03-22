@@ -9,19 +9,18 @@
 </head>
 <body>
     <div class="container text-center">
-        <h1 class=" mt-5">Dad Jokes para no morir por la nostalgia</h1>
+        <h1>Dad Jokes para no morir por la nostalgia</h1>
         <img class="dino-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2OdqYG0Id2W0ftpCsu7D6UUdJcTVESXlsLA&s" alt="Rex chistes malos">
-        <button id="generateJoke" class="btn btn-danger mt-5">Generar chiste</button>
+        <button id="generateJoke" class="btn btn-danger mt-4">Generar chiste</button>
         <div id="jokeDisplay" class="joke-container mt-4" style="display: none;" ></div>
 
         <!--Agrego un formulario para que los usuarios puedan ingresar sus propios chistes-->
-        <div class="mt-5">
+        <div class="mt-5 mb-3">
             <h3>¿Tienes un chiste que compartir? Agregalo!</h3>
-            <form id="addJokeForm">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="jokeInput" placeholder="Escribe tu chiste de papá">
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar chiste</button>
+            <form id="addJokeForm" class="mt-3">
+                <input type="text" id="jokeQuestion" class="form-control" placeholder="Escribe la pregunta del chiste" />
+                <input type="text" id="jokeAnswer" class="form-control mt-2" placeholder="Escribe la respuesta para el chiste" />
+                <button id="addJoke" class="btn btn-success mt-4">Agregar chiste</button>
             </form>
         </div>
     </div>

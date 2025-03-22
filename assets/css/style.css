@@ -6,12 +6,12 @@ html, body {
 
 body {
     position: relative; 
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 
 .container {
-    margin-top: 2em;
+    margin-top: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
