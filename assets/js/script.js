@@ -1,19 +1,23 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    let chistes = [];
+    let chistes = JSON.parse(localStorage.getItem('chistes')) || [];
     let chistePasado = new Set();
 
     async function loadJokes() {
         try {
             const response = await fetch('data/chistes.json');
             if (!response.ok) {
-                throw new Error('Error al cargar las bromas');
+                throw new Error('Error al cargar los chistes');
             }
-            chistes = await response.json();
-            if (!Array.isArray(chistes) || chistes.length === 0) {
-                throw new Error('No se encontraron bromas');
+            const jsonChistes = await response.json();
+            if (!Array.isArray(jsonChistes) && jsonChistes.length > 0) {
+                //combinamos chistes y los guardamos para el usuario
+                chistes = jsonChistes.concat(jsonChistes);
+                localStorage.setItem('chistes', JSON.stringify(chistes));
+            } else {
+                throw new Error('No se encontraron chistes');
             }
         } catch (error) {
-            document.getElementById('jokeDisplay').textContent = 'Error al obtener las bromas.';
+            document.getElementById('jokeDisplay').textContent = 'Error al obtener los chistes.';
             console.error('Error:', error);
         }
     }
@@ -39,6 +43,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             respuesta: respuesta
         };
         chistes.push(newJoke);
+        //Guardo el chiste para el usuario (pre medida mientras veo lo del backend)
+        localStorage.setItem('chistes', JSON.stringify(chistes));
         console.log('Nuevo chiste agregado:', newJoke);
     }
 
@@ -60,7 +66,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     //Agregarchiste usuario
-    document.getElementById('addJoke').addEventListener('click', function() {
+    document.getElementById('addJoke').addEventListener('click', function(event) {
+        event.preventDefault();
+        
         const jokeQuestion = document.getElementById('jokeQuestion').value;
         const jokeAnswer = document.getElementById('jokeAnswer').value;
 
