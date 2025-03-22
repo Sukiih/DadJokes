@@ -9,9 +9,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 throw new Error('Error al cargar los chistes');
             }
             const jsonChistes = await response.json();
-            if (!Array.isArray(jsonChistes) && jsonChistes.length > 0) {
-                //combinamos chistes y los guardamos para el usuario
-                chistes = jsonChistes.concat(jsonChistes);
+            if (Array.isArray(jsonChistes) && jsonChistes.length > 0) {
+                chistes = jsonChistes.concat(chistes);
                 localStorage.setItem('chistes', JSON.stringify(chistes));
             } else {
                 throw new Error('No se encontraron chistes');
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (chistes.length === 0) return null;
         let chisteFaltante = chistes.filter(joke => !chistePasado.has(joke));
         if (chisteFaltante.length === 0) {
-            //reiniciar chistes
             chistePasado.clear();
             chisteFaltante = chistes;
         }
@@ -43,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             respuesta: respuesta
         };
         chistes.push(newJoke);
-        //Guardo el chiste para el usuario (pre medida mientras veo lo del backend)
+        // Guardamos el nuevo chiste en localStorage
         localStorage.setItem('chistes', JSON.stringify(chistes));
         console.log('Nuevo chiste agregado:', newJoke);
     }
@@ -65,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    //Agregarchiste usuario
+    // Agregar chistes desde el formulario
     document.getElementById('addJoke').addEventListener('click', function(event) {
         event.preventDefault();
         
@@ -84,5 +82,3 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     await loadJokes();
 });
-
-
